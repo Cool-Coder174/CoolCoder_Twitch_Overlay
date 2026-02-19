@@ -1,7 +1,6 @@
-
 "use client"
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { TypewriterText } from './TypewriterText';
 import { Axolotl } from './Axolotl';
@@ -26,8 +25,18 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Progression timer for the sequence since we're using a marquee for broadcast
+  useEffect(() => {
+    if (bootSequence === 2) {
+      const timer = setTimeout(() => setBootSequence(3), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [bootSequence]);
+
   const themeClass = theme === 'green' ? 'terminal-green' : 'terminal-amber';
   const glowBorder = theme === 'green' ? 'shadow-[0_0_60px_rgba(0,255,0,0.1)]' : 'shadow-[0_0_60px_rgba(255,176,0,0.1)]';
+
+  const broadcastMessage = "// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon...";
 
   return (
     <div 
@@ -76,17 +85,23 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
             {bootSequence >= 2 && (
               <div className="flex-1 flex flex-col gap-8 border-t border-current/10 pt-8 min-h-0 overflow-hidden">
-                {/* Message Broadcast */}
-                <div className="flex flex-col gap-4 p-6 sm:p-8 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0 overflow-hidden">
-                  <div className="text-xs font-bold opacity-40 uppercase tracking-[0.4em]">Message Broadcast</div>
-                  <div className="w-full overflow-hidden">
-                    <TypewriterText 
-                      text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
-                      speed={20} 
-                      className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl font-bold whitespace-nowrap opacity-90"
-                      showCursor={true}
-                      onComplete={() => setBootSequence(3)}
-                    />
+                {/* Message Broadcast - Ticker Marquee */}
+                <div className="relative flex items-center h-16 sm:h-20 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0 overflow-hidden">
+                  <div className="absolute left-6 z-10 px-2 bg-current/10 backdrop-blur-md rounded border border-current/20 text-[10px] font-bold opacity-60 uppercase tracking-[0.4em] shadow-lg">
+                    Broadcast
+                  </div>
+                  
+                  <div className="flex whitespace-nowrap animate-marquee">
+                    <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold opacity-90 px-4 flex items-center">
+                      {broadcastMessage}
+                      <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
+                      <span className="mx-12 opacity-20">///</span>
+                    </span>
+                    <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold opacity-90 px-4 flex items-center">
+                      {broadcastMessage}
+                      <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
+                      <span className="mx-12 opacity-20">///</span>
+                    </span>
                   </div>
                 </div>
 

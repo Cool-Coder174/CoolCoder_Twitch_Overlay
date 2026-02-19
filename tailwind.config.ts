@@ -117,6 +117,10 @@ export default {
           '45%': { opacity: '1' },
           '46%': { opacity: '0.8' },
           '47%': { opacity: '1' },
+        },
+        'marquee': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         }
       },
       animation: {
@@ -128,6 +132,7 @@ export default {
         'grid-scroll': 'grid-scroll 80s linear infinite',
         'wiggle': 'wiggle 3s ease-in-out infinite',
         'terminal-flicker': 'terminal-flicker 0.2s infinite',
+        'marquee': 'marquee 30s linear infinite',
       },
     },
   },
