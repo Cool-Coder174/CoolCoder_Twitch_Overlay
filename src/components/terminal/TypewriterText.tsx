@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface TypewriterTextProps {
@@ -22,6 +22,9 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isStarted, setIsStarted] = useState(false);
+  const hasCompleted = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     const timer = setTimeout(() => setIsStarted(true), delay);
@@ -32,14 +35,16 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
     if (!isStarted) return;
     
     if (displayedText.length < text.length) {
+      hasCompleted.current = false;
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, displayedText.length + 1));
       }, speed);
       return () => clearTimeout(timeout);
-    } else if (onComplete) {
-      onComplete();
+    } else if (!hasCompleted.current) {
+      hasCompleted.current = true;
+      onCompleteRef.current?.();
     }
-  }, [displayedText, text, speed, onComplete, isStarted]);
+  }, [displayedText, text, speed, isStarted]);
 
   return (
     <span className={cn("font-code transition-all duration-300", className)}>
