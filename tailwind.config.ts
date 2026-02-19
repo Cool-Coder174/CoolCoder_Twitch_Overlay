@@ -98,7 +98,7 @@ export default {
         },
         'float': {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-5px)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
         'grid-scroll': {
           '0%': { backgroundPosition: '0 0' },
@@ -108,10 +108,10 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'blink': 'blink 1.5s step-end infinite',
-        'scanline': 'scanline 12s linear infinite',
-        'float': 'float 8s ease-in-out infinite',
-        'grid-scroll': 'grid-scroll 20s linear infinite',
+        'blink': 'blink 2s step-end infinite',
+        'scanline': 'scanline 40s linear infinite',
+        'float': 'float 15s ease-in-out infinite',
+        'grid-scroll': 'grid-scroll 80s linear infinite',
       },
     },
   },
