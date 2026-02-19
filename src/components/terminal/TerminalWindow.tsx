@@ -41,7 +41,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-6xl aspect-[16/10] z-10 transition-transform duration-[3000ms] ease-out animate-float"
+      className="relative w-full max-w-6xl min-h-[800px] z-10 transition-transform duration-[3000ms] ease-out animate-float"
       style={{
         transform: `perspective(2000px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
@@ -56,7 +56,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
         <div className="absolute inset-0 w-full h-[1px] bg-white/5 z-30 animate-scanline pointer-events-none" />
 
         {/* Terminal Content Wrapper */}
-        <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg overflow-hidden transition-colors duration-1000", themeClass)}>
+        <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg transition-colors duration-1000", themeClass)}>
           
           {/* Header */}
           <div className="flex justify-between items-center mb-6 border-b border-current pb-4 opacity-40 shrink-0">
@@ -71,7 +71,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
           </div>
 
           {/* Main Body */}
-          <div className="flex-1 flex flex-col gap-6 min-h-0 overflow-hidden">
+          <div className="flex-1 flex flex-col gap-8 min-h-0">
             {/* Boot Sequence Lines */}
             <div className="flex flex-col gap-2 shrink-0 opacity-60">
               <TypewriterText 
@@ -92,7 +92,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
             {/* Broadcast & Data Section */}
             {bootSequence >= 2 && (
-              <div className="flex-1 flex flex-col gap-6 border-t border-current/10 pt-6 min-h-0 overflow-hidden">
+              <div className="flex-1 flex flex-col gap-8 border-t border-current/10 pt-6">
                 
                 {/* News Ticker Bar */}
                 <div className="flex flex-col gap-2 shrink-0">
@@ -101,12 +101,12 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                   </div>
                   <div className="relative flex items-center h-16 sm:h-20 border border-current/10 rounded-2xl bg-current/5 shadow-inner overflow-hidden">
                     <div className="flex whitespace-nowrap animate-marquee">
-                      <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
+                      <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold opacity-90 px-4 flex items-center">
                         {broadcastMessage}
                         <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
                         <span className="mx-12 opacity-20">///</span>
                       </span>
-                      <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
+                      <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold opacity-90 px-4 flex items-center">
                         {broadcastMessage}
                         <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
                         <span className="mx-12 opacity-20">///</span>
@@ -117,18 +117,18 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
                 {/* Diagnostics Grid - Only visible at sequence 3 */}
                 {bootSequence >= 3 && (
-                  <div className="grid grid-cols-12 gap-6 flex-1 min-h-0 overflow-hidden">
+                  <div className="grid grid-cols-12 gap-6 flex-1 min-h-0 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                     {/* Left: Scanning Console */}
-                    <div className="col-span-12 lg:col-span-7 flex flex-col min-h-0">
+                    <div className="col-span-12 lg:col-span-7 flex flex-col">
                       <ScanningTerminal />
                     </div>
 
                     {/* Right: Axolotl Auxiliary */}
-                    <div className="col-span-12 lg:col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-2xl bg-current/5 relative overflow-hidden group min-h-[200px]">
+                    <div className="col-span-12 lg:col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-2xl bg-current/5 relative overflow-hidden group min-h-[250px]">
                       <div className="absolute top-4 left-4 text-[10px] opacity-40 uppercase tracking-[0.4em] font-bold">
                         &gt; AXOLOTL_BOOT: ONLINE
                       </div>
-                      <div className="flex-1 flex items-center justify-center w-full h-full transform transition-transform duration-700 group-hover:scale-105">
+                      <div className="flex-1 flex items-center justify-center w-full h-full transform transition-transform duration-700 group-hover:scale-110">
                         <Axolotl className="text-current" />
                       </div>
                       <div className="absolute bottom-4 right-4 text-[8px] opacity-20 uppercase tracking-widest">
