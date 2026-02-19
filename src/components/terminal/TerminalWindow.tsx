@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -40,7 +41,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-6xl aspect-[16/11] z-10 transition-transform duration-[3000ms] ease-out animate-float"
+      className="relative w-full max-w-6xl aspect-[16/10] z-10 transition-transform duration-[3000ms] ease-out animate-float"
       style={{
         transform: `perspective(2000px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
@@ -94,22 +95,23 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
               <div className="flex-1 flex flex-col gap-6 border-t border-current/10 pt-6 min-h-0 overflow-hidden">
                 
                 {/* News Ticker Bar */}
-                <div className="relative flex items-center h-16 sm:h-20 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0 overflow-hidden">
-                  <div className="absolute left-6 z-20 px-2 bg-background/80 backdrop-blur-md rounded border border-current/20 text-[10px] font-bold opacity-80 uppercase tracking-[0.4em] shadow-lg">
+                <div className="flex flex-col gap-2 shrink-0">
+                  <div className="px-2 text-[10px] font-bold opacity-40 uppercase tracking-[0.4em]">
                     Broadcast
                   </div>
-                  
-                  <div className="flex whitespace-nowrap animate-marquee">
-                    <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
-                      {broadcastMessage}
-                      <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
-                      <span className="mx-12 opacity-20">///</span>
-                    </span>
-                    <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
-                      {broadcastMessage}
-                      <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
-                      <span className="mx-12 opacity-20">///</span>
-                    </span>
+                  <div className="relative flex items-center h-16 sm:h-20 border border-current/10 rounded-2xl bg-current/5 shadow-inner overflow-hidden">
+                    <div className="flex whitespace-nowrap animate-marquee">
+                      <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
+                        {broadcastMessage}
+                        <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
+                        <span className="mx-12 opacity-20">///</span>
+                      </span>
+                      <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
+                        {broadcastMessage}
+                        <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
+                        <span className="mx-12 opacity-20">///</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
