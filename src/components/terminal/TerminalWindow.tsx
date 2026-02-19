@@ -107,28 +107,34 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             </div>
 
             {bootSequence >= 3 && (
-              <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-current/10 pt-6">
+              <div className="mt-auto grid grid-cols-1 gap-4 border-t border-current/10 pt-6">
                 <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
-                  <div className="text-[10px] opacity-40 uppercase mb-1">Environmental Scan</div>
+                  <div className="text-[10px] opacity-40 uppercase mb-1">Message Broadcast</div>
                   <TypewriterText 
-                    text={idleDescription || "Syncing background threads..."} 
+                    text="WELCOME COOTERS! - grab your snacks - grab your work - and lock the f*ck in ____________________ Starting soon..." 
                     speed={15} 
                     className="text-[11px] leading-relaxed opacity-80"
                   />
                 </div>
-                <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
-                  <div className="text-[10px] opacity-40 uppercase mb-1">Signal Integrity</div>
-                  <div className="space-y-1.5 mt-1">
-                    <div className="flex justify-between text-[9px]">
-                      <span className="opacity-70">UPLINK_STATUS</span>
-                      <span className="opacity-50">STABLE</span>
-                    </div>
-                    <div className="w-full h-1 bg-current/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-current opacity-20" style={{width: '45%'}} />
-                    </div>
-                    <div className="flex justify-between text-[9px] opacity-50">
-                      <span>LATENCY</span>
-                      <span>12ms</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
+                    <div className="text-[10px] opacity-40 uppercase mb-1">Environmental Scan</div>
+                    <TypewriterText 
+                      text={idleDescription || "Syncing background threads..."} 
+                      speed={10} 
+                      className="text-[9px] leading-relaxed opacity-60"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
+                    <div className="text-[10px] opacity-40 uppercase mb-1">Signal Integrity</div>
+                    <div className="space-y-1.5 mt-1">
+                      <div className="flex justify-between text-[9px]">
+                        <span className="opacity-70">UPLINK_STATUS</span>
+                        <span className="opacity-50">STABLE</span>
+                      </div>
+                      <div className="w-full h-1 bg-current/5 rounded-full overflow-hidden">
+                        <div className="h-full bg-current opacity-20" style={{width: '45%'}} />
+                      </div>
                     </div>
                   </div>
                 </div>
