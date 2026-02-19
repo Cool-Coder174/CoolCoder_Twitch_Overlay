@@ -144,7 +144,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                           />
                         </h1>
                       </div>
-                      <div className="scale-75 sm:scale-100 flex items-center justify-center">
+                      <div className="scale-100 flex items-center justify-center overflow-hidden w-full">
                         <Axolotl />
                       </div>
                     </div>

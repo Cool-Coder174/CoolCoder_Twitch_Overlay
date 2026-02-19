@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 export const Axolotl: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <pre className={cn(
-      "font-mono text-[4px] sm:text-[6px] md:text-[8px] leading-[1.1] whitespace-pre opacity-80 animate-wiggle select-none pointer-events-none",
+      "font-mono text-[2px] sm:text-[2.5px] md:text-[3px] leading-[1.1] whitespace-pre opacity-80 animate-wiggle select-none pointer-events-none",
       className
     )}>
       {`
