@@ -56,8 +56,8 @@ export const ScanningTerminal: React.FC = () => {
         Neural Scan In Progress
       </div>
       
-      <div className="flex-1 font-code text-lg sm:text-xl leading-relaxed opacity-90 relative">
-        <div className="flex flex-wrap items-center gap-x-2">
+      <div className="flex-1 font-code text-xs sm:text-sm md:text-lg leading-relaxed opacity-90 relative overflow-hidden">
+        <div className="flex flex-nowrap items-center gap-x-2 whitespace-nowrap">
           <span>{displayText}</span>
           
           {/* Show spinner only on the second message when typing is done */}
@@ -68,7 +68,7 @@ export const ScanningTerminal: React.FC = () => {
           )}
           
           {/* Blinking Cursor */}
-          <span className="inline-block w-2.5 h-5 bg-current animate-blink align-middle" />
+          <span className="inline-block w-2.5 h-5 bg-current animate-blink align-middle shrink-0" />
         </div>
         
         {/* Subtle Phosphor Glow Overlay */}
