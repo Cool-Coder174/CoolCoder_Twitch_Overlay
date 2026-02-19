@@ -15,8 +15,12 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const fetchIdleAnimation = useCallback(async () => {
-    const desc = await generateRetroIdleAnimations({});
-    setIdleDescription(desc);
+    try {
+      const desc = await generateRetroIdleAnimations({});
+      setIdleDescription(desc);
+    } catch (error) {
+      setIdleDescription("Background sync protocols stable.");
+    }
   }, []);
 
   useEffect(() => {
@@ -25,9 +29,10 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      // Very slight rotation for depth without jitter
       setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
+        x: (e.clientX / window.innerWidth - 0.5) * 8,
+        y: (e.clientY / window.innerHeight - 0.5) * 8,
       });
     };
     window.addEventListener('mousemove', handleMouseMove);
@@ -35,37 +40,37 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
   }, []);
 
   const themeClass = theme === 'green' ? 'terminal-green' : 'terminal-amber';
-  const glowBorder = theme === 'green' ? 'shadow-[0_0_20px_rgba(0,255,0,0.3)]' : 'shadow-[0_0_20px_rgba(255,176,0,0.3)]';
+  const glowBorder = theme === 'green' ? 'shadow-[0_0_40px_rgba(0,255,0,0.15)]' : 'shadow-[0_0_40px_rgba(255,176,0,0.15)]';
 
   return (
     <div 
-      className="relative w-full max-w-4xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-200 ease-out animate-float"
+      className="relative w-full max-w-4xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-700 ease-out animate-float"
       style={{
-        transform: `perspective(1000px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
+        transform: `perspective(1200px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
     >
       {/* 80s Mac Style Outer Shell */}
       <div className={cn(
-        "absolute inset-0 glass-morphism rounded-[2.5rem] overflow-hidden p-6 sm:p-10",
+        "absolute inset-0 glass-morphism rounded-[2.5rem] overflow-hidden p-6 sm:p-10 transition-shadow duration-500",
         glowBorder
       )}>
-        {/* Ambient CRT Effects */}
-        <div className="absolute inset-0 crt-scanline z-50 animate-flicker opacity-40" />
-        <div className="absolute inset-0 sheen-effect z-40 opacity-30" />
+        {/* Ambient CRT Effects - Removed flicker for jitter-less experience */}
+        <div className="absolute inset-0 crt-scanline z-50 opacity-20 pointer-events-none" />
+        <div className="absolute inset-0 sheen-effect z-40 opacity-20 pointer-events-none" />
         
-        {/* Scanline Animation */}
-        <div className="absolute inset-0 w-full h-[2px] bg-white/10 z-30 animate-scanline" />
+        {/* Slow Scanline Animation */}
+        <div className="absolute inset-0 w-full h-[1px] bg-white/5 z-30 animate-scanline pointer-events-none" />
 
-        <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg overflow-hidden", themeClass)}>
+        <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg overflow-hidden transition-colors duration-500", themeClass)}>
           {/* Status Header */}
-          <div className="flex justify-between items-center mb-6 border-b border-current pb-2 opacity-80">
+          <div className="flex justify-between items-center mb-6 border-b border-current pb-2 opacity-60">
             <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/50" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-              <div className="w-3 h-3 rounded-full bg-green-500/50" />
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500/30" />
+              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/30" />
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500/30" />
             </div>
-            <div className="text-xs uppercase tracking-widest flex items-center gap-2">
-              <span className="animate-pulse">●</span> System Live
+            <div className="text-[10px] uppercase tracking-widest flex items-center gap-2">
+              <span className="opacity-50">●</span> System Stable
             </div>
           </div>
 
@@ -75,14 +80,14 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
               <TypewriterText 
                 text="[SYSTEM INITIALIZING...]" 
                 delay={500} 
-                speed={30} 
+                speed={20} 
                 onComplete={() => setBootSequence(1)} 
               />
               {bootSequence >= 1 && (
                 <TypewriterText 
                   text="[LOADING STREAM PROTOCOLS...]" 
                   delay={100} 
-                  speed={20} 
+                  speed={15} 
                   onComplete={() => setBootSequence(2)} 
                 />
               )}
@@ -92,8 +97,8 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                     <TypewriterText 
                       text="Starting Soon" 
                       delay={200} 
-                      speed={100} 
-                      className="drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                      speed={80} 
+                      className="drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
                       onComplete={() => setBootSequence(3)}
                     />
                   </h1>
@@ -102,32 +107,28 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             </div>
 
             {bootSequence >= 3 && (
-              <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-current/30 pt-6">
-                <div className="flex flex-col gap-2 p-3 border border-current/20 rounded-lg bg-current/5">
-                  <div className="text-xs opacity-60 uppercase mb-1">Status Report</div>
+              <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-current/10 pt-6">
+                <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
+                  <div className="text-[10px] opacity-40 uppercase mb-1">Environment Data</div>
                   <TypewriterText 
-                    text={idleDescription || "Calculating idle vectors..."} 
-                    speed={10} 
-                    className="text-xs leading-relaxed"
+                    text={idleDescription || "Calibrating streams..."} 
+                    speed={8} 
+                    className="text-[11px] leading-relaxed opacity-80"
                   />
                 </div>
-                <div className="flex flex-col gap-2 p-3 border border-current/20 rounded-lg bg-current/5">
-                  <div className="text-xs opacity-60 uppercase mb-1">Terminal Activity</div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-[10px]">
-                      <span>BUFFER_SYNC</span>
-                      <span className="animate-pulse">OK</span>
+                <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
+                  <div className="text-[10px] opacity-40 uppercase mb-1">Subsystem Activity</div>
+                  <div className="space-y-1.5 mt-1">
+                    <div className="flex justify-between text-[9px]">
+                      <span className="opacity-70">DATA_REPLICATION</span>
+                      <span className="text-green-500/70">ACTIVE</span>
                     </div>
-                    <div className="w-full h-1 bg-current/10 rounded-full overflow-hidden">
-                      <div className="h-full bg-current animate-[progress_2s_ease-in-out_infinite]" style={{width: '75%'}} />
+                    <div className="w-full h-1 bg-current/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-current opacity-40 transition-all duration-1000" style={{width: '62%'}} />
                     </div>
-                    <div className="flex justify-between text-[10px]">
-                      <span>LATENCY_STAB</span>
-                      <span>0.04ms</span>
-                    </div>
-                    <div className="flex justify-between text-[10px]">
-                      <span>STREAM_GLS</span>
-                      <span>v1.0.4-rc</span>
+                    <div className="flex justify-between text-[9px] opacity-70">
+                      <span>STABILITY_INDEX</span>
+                      <span>0.9997</span>
                     </div>
                   </div>
                 </div>
@@ -136,14 +137,13 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
           </div>
 
           {/* Footer Bar */}
-          <div className="mt-6 flex justify-between items-center text-[10px] opacity-60">
+          <div className="mt-6 flex justify-between items-center text-[9px] opacity-40 tracking-wider">
             <div>&copy; 1984 STREAMGLASS INTERACTIVE</div>
             <div className="flex items-center gap-4">
-              <span>512KB VRAM</span>
+              <span>CORE_V01</span>
               <div className="flex gap-1">
-                <div className="w-1 h-3 bg-current" />
-                <div className="w-1 h-3 bg-current opacity-50" />
-                <div className="w-1 h-3 bg-current opacity-20" />
+                <div className="w-1 h-2.5 bg-current" />
+                <div className="w-1 h-2.5 bg-current opacity-30" />
               </div>
             </div>
           </div>
