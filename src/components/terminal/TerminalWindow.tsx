@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -76,15 +77,17 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             {bootSequence >= 2 && (
               <div className="flex-1 flex flex-col gap-8 border-t border-current/10 pt-8 min-h-0 overflow-hidden">
                 {/* Message Broadcast */}
-                <div className="flex flex-col gap-6 p-8 sm:p-10 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0">
+                <div className="flex flex-col gap-4 p-6 sm:p-8 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0 overflow-hidden">
                   <div className="text-xs font-bold opacity-40 uppercase tracking-[0.4em]">Message Broadcast</div>
-                  <TypewriterText 
-                    text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
-                    speed={20} 
-                    className="text-2xl sm:text-4xl font-bold leading-tight opacity-90"
-                    showCursor={true}
-                    onComplete={() => setBootSequence(3)}
-                  />
+                  <div className="w-full overflow-hidden">
+                    <TypewriterText 
+                      text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
+                      speed={20} 
+                      className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl font-bold whitespace-nowrap opacity-90"
+                      showCursor={true}
+                      onComplete={() => setBootSequence(3)}
+                    />
+                  </div>
                 </div>
 
                 {/* Main Data Layout */}
