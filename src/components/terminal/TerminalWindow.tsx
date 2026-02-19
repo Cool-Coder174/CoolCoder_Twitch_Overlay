@@ -100,35 +100,35 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             </div>
 
             {bootSequence >= 3 && (
-              <div className="mt-auto grid grid-cols-1 gap-4 border-t border-current/10 pt-6">
-                <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
-                  <div className="text-[10px] opacity-40 uppercase mb-1">Message Broadcast</div>
+              <div className="mt-auto grid grid-cols-1 gap-6 border-t border-current/10 pt-8">
+                <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 shadow-inner">
+                  <div className="text-xs font-bold opacity-50 uppercase tracking-widest">Message Broadcast</div>
                   <TypewriterText 
                     text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
                     speed={15} 
-                    className="text-[11px] leading-relaxed opacity-80"
+                    className="text-xl sm:text-2xl font-bold leading-tight opacity-90"
                     showCursor={true}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
-                    <div className="text-[10px] opacity-40 uppercase mb-1">Environmental Scan</div>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-3 p-5 border border-current/10 rounded-xl bg-current/5">
+                    <div className="text-[10px] opacity-50 uppercase tracking-wider font-bold">Environmental Scan</div>
                     <TypewriterText 
                       text={idleDescription || "Background sync protocols stable."} 
                       speed={10} 
-                      className="text-[9px] leading-relaxed opacity-60"
+                      className="text-sm leading-relaxed opacity-70"
                       showCursor={false}
                     />
                   </div>
-                  <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
-                    <div className="text-[10px] opacity-40 uppercase mb-1">Signal Integrity</div>
-                    <div className="space-y-1.5 mt-1">
-                      <div className="flex justify-between text-[9px]">
+                  <div className="flex flex-col gap-3 p-5 border border-current/10 rounded-xl bg-current/5">
+                    <div className="text-[10px] opacity-50 uppercase tracking-wider font-bold">Signal Integrity</div>
+                    <div className="space-y-3 mt-1">
+                      <div className="flex justify-between text-xs font-bold">
                         <span className="opacity-70">UPLINK_STATUS</span>
-                        <span className="opacity-50">STABLE</span>
+                        <span className="opacity-90">STABLE</span>
                       </div>
-                      <div className="w-full h-1 bg-current/5 rounded-full overflow-hidden">
-                        <div className="h-full bg-current opacity-20" style={{width: '45%'}} />
+                      <div className="w-full h-2 bg-current/10 rounded-full overflow-hidden">
+                        <div className="h-full bg-current opacity-40" style={{width: '65%'}} />
                       </div>
                     </div>
                   </div>
@@ -137,13 +137,13 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             )}
           </div>
 
-          <div className="mt-6 flex justify-between items-center text-[9px] opacity-30 tracking-wider">
+          <div className="mt-8 flex justify-between items-center text-[10px] opacity-30 tracking-wider">
             <div>&copy; 2024 STREAMGLASS INTERACTIVE</div>
             <div className="flex items-center gap-4">
               <span>BETA_0.4.2</span>
               <div className="flex gap-1">
-                <div className="w-1 h-2.5 bg-current" />
-                <div className="w-1 h-2.5 bg-current opacity-20" />
+                <div className="w-1.5 h-3 bg-current" />
+                <div className="w-1.5 h-3 bg-current opacity-20" />
               </div>
             </div>
           </div>
