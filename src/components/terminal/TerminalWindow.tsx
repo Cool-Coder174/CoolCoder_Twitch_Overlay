@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { TypewriterText } from './TypewriterText';
 import { Axolotl } from './Axolotl';
 import { ScanningTerminal } from './ScanningTerminal';
-import { generateRetroIdleAnimations } from '@/ai/flows/generate-retro-idle-animations';
 
 interface TerminalWindowProps {
   theme: 'green' | 'amber';
@@ -18,8 +17,8 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 2, // Further dampened for jitter-less feel
-        y: (e.clientY / window.innerHeight - 0.5) * 2,
+        x: (e.clientX / window.innerWidth - 0.5) * 1.5,
+        y: (e.clientY / window.innerHeight - 0.5) * 1.5,
       });
     };
     window.addEventListener('mousemove', handleMouseMove);
@@ -31,7 +30,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-6xl aspect-video z-10 transition-transform duration-[3000ms] ease-out animate-float"
+      className="relative w-full max-w-6xl aspect-[16/11] sm:aspect-[16/10] z-10 transition-transform duration-[3000ms] ease-out animate-float"
       style={{
         transform: `perspective(2000px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
