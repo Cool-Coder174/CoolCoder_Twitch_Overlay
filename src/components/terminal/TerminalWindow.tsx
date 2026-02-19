@@ -133,7 +133,9 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
                     {/* Right Column - Axolotl Only */}
                     <div className="col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-xl bg-current/5 relative overflow-hidden">
-                      <div className="absolute top-4 left-4 text-xs opacity-50 uppercase tracking-widest font-bold">Auxiliary Port</div>
+                      <div className="absolute top-4 left-4 text-xs opacity-50 uppercase tracking-widest font-bold">
+                        &gt; AXOLOTL_BOOT: ONLINE
+                      </div>
                       <div className="flex-1 flex items-center justify-center overflow-hidden w-full h-full">
                         <Axolotl />
                       </div>
