@@ -103,6 +103,11 @@ export default {
         'grid-scroll': {
           '0%': { backgroundPosition: '0 0' },
           '100%': { backgroundPosition: '0 40px' },
+        },
+        'wiggle': {
+          '0%, 100%': { transform: 'translateX(0) skewX(0deg)' },
+          '25%': { transform: 'translateX(-5px) skewX(-1deg)' },
+          '75%': { transform: 'translateX(5px) skewX(1deg)' },
         }
       },
       animation: {
@@ -112,6 +117,7 @@ export default {
         'scanline': 'scanline 40s linear infinite',
         'float': 'float 15s ease-in-out infinite',
         'grid-scroll': 'grid-scroll 80s linear infinite',
+        'wiggle': 'wiggle 3s ease-in-out infinite',
       },
     },
   },

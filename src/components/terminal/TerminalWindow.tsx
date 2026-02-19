@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { TypewriterText } from './TypewriterText';
+import { Axolotl } from './Axolotl';
 import { generateRetroIdleAnimations } from '@/ai/flows/generate-retro-idle-animations';
 
 interface TerminalWindowProps {
@@ -43,7 +44,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-6xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float"
+      className="relative w-full max-w-6xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float mt-20"
       style={{
         transform: `perspective(1200px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
@@ -85,8 +86,8 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                 />
               )}
               {bootSequence >= 2 && (
-                <div className="mt-8 text-center py-10">
-                  <h1 className="text-4xl sm:text-6xl font-bold mb-4 tracking-tighter uppercase italic">
+                <div className="mt-4 flex flex-col items-center justify-center py-4">
+                  <h1 className="text-4xl sm:text-6xl font-bold mb-2 tracking-tighter uppercase italic">
                     <TypewriterText 
                       text="Stand By" 
                       delay={400} 
@@ -95,39 +96,40 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                       onComplete={() => setBootSequence(3)}
                     />
                   </h1>
+                  <Axolotl className="mt-2" />
                 </div>
               )}
             </div>
 
             {bootSequence >= 3 && (
               <div className="mt-auto grid grid-cols-1 gap-6 border-t border-current/10 pt-8">
-                <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 shadow-inner">
+                <div className="flex flex-col gap-4 p-8 border border-current/10 rounded-xl bg-current/5 shadow-inner">
                   <div className="text-xs font-bold opacity-50 uppercase tracking-widest">Message Broadcast</div>
                   <TypewriterText 
                     text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
                     speed={15} 
-                    className="text-xl sm:text-2xl font-bold leading-tight opacity-90"
+                    className="text-2xl sm:text-4xl font-bold leading-tight opacity-90"
                     showCursor={true}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-3 p-5 border border-current/10 rounded-xl bg-current/5">
-                    <div className="text-[10px] opacity-50 uppercase tracking-wider font-bold">Environmental Scan</div>
+                  <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5">
+                    <div className="text-xs opacity-50 uppercase tracking-wider font-bold">Environmental Scan</div>
                     <TypewriterText 
                       text={idleDescription || "Background sync protocols stable."} 
                       speed={10} 
-                      className="text-sm leading-relaxed opacity-70"
+                      className="text-base leading-relaxed opacity-70"
                       showCursor={false}
                     />
                   </div>
-                  <div className="flex flex-col gap-3 p-5 border border-current/10 rounded-xl bg-current/5">
-                    <div className="text-[10px] opacity-50 uppercase tracking-wider font-bold">Signal Integrity</div>
-                    <div className="space-y-3 mt-1">
-                      <div className="flex justify-between text-xs font-bold">
+                  <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5">
+                    <div className="text-xs opacity-50 uppercase tracking-wider font-bold">Signal Integrity</div>
+                    <div className="space-y-4 mt-1">
+                      <div className="flex justify-between text-sm font-bold">
                         <span className="opacity-70">UPLINK_STATUS</span>
                         <span className="opacity-90">STABLE</span>
                       </div>
-                      <div className="w-full h-2 bg-current/10 rounded-full overflow-hidden">
+                      <div className="w-full h-3 bg-current/10 rounded-full overflow-hidden">
                         <div className="h-full bg-current opacity-40" style={{width: '65%'}} />
                       </div>
                     </div>
