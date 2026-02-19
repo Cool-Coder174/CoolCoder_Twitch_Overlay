@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const MESSAGES = [
-  "> scanning for intelligent life...  ERROR: 404\n        - followers detected",
+  "> scanning for intelligent life... followers detected",
   "> intelligence not found. searching"
 ];
 
@@ -60,21 +60,27 @@ export const ScanningTerminal: React.FC = () => {
     <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 overflow-hidden animate-terminal-flicker min-h-[140px]">
       <div className="text-sm opacity-50 uppercase tracking-wider font-bold shrink-0 flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
-        Neural Scan In Progress
+        Neural Scan In Progress {SPINNER_FRAMES[spinnerIndex]}
       </div>
       
       <div
         className="flex-1 font-code text-xs sm:text-sm md:text-lg leading-relaxed opacity-90 relative transition-opacity duration-150"
         style={{ opacity: flickerOpacity }}
       >
-        <div className="whitespace-pre-wrap break-words">
+        <div className="whitespace-nowrap overflow-hidden">
           <span>{displayText}</span>
-          {showSearchSpinner ? (
-            <span className="text-primary inline min-w-[2ch]">
-              {' '}({SPINNER_FRAMES[spinnerIndex]})
-            </span>
-          ) : (
+          {!isDoneTyping && (
             <span
+              className="inline-block w-2.5 h-5 bg-current align-middle ml-1 animate-blink"
+            />
+          )}
+          {showSearchSpinner && (
+            <span className="text-primary inline ml-2">
+              ...({SPINNER_FRAMES[spinnerIndex]})
+            </span>
+          )}
+          {isDoneTyping && !showSearchSpinner && (
+             <span
               className="inline-block w-2.5 h-5 bg-current align-middle ml-1 animate-blink"
             />
           )}
