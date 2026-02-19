@@ -29,7 +29,6 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Extremely dampened rotation for a heavy, slow feel
       setMousePos({
         x: (e.clientX / window.innerWidth - 0.5) * 4,
         y: (e.clientY / window.innerHeight - 0.5) * 4,
@@ -49,20 +48,15 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
         transform: `perspective(1200px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
     >
-      {/* 80s Mac Style Outer Shell */}
       <div className={cn(
         "absolute inset-0 glass-morphism rounded-[2.5rem] overflow-hidden p-6 sm:p-10 transition-shadow duration-1000",
         glowBorder
       )}>
-        {/* Ambient CRT Effects */}
         <div className="absolute inset-0 crt-scanline z-50 opacity-15 pointer-events-none" />
         <div className="absolute inset-0 sheen-effect z-40 opacity-15 pointer-events-none" />
-        
-        {/* Ultra Slow Scanline Animation */}
         <div className="absolute inset-0 w-full h-[1px] bg-white/5 z-30 animate-scanline pointer-events-none" />
 
         <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg overflow-hidden transition-colors duration-1000", themeClass)}>
-          {/* Status Header */}
           <div className="flex justify-between items-center mb-6 border-b border-current pb-2 opacity-60">
             <div className="flex gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
@@ -74,7 +68,6 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             </div>
           </div>
 
-          {/* Main Content Areas */}
           <div className="flex-1 flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <TypewriterText 
@@ -111,9 +104,10 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                 <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
                   <div className="text-[10px] opacity-40 uppercase mb-1">Message Broadcast</div>
                   <TypewriterText 
-                    text="WELCOME COOTERS! - grab your snacks - grab your work - and lock the f*ck in ____________________ Starting soon..." 
+                    text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
                     speed={15} 
                     className="text-[11px] leading-relaxed opacity-80"
+                    showCursor={true}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -123,6 +117,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                       text={idleDescription || "Background sync protocols stable."} 
                       speed={10} 
                       className="text-[9px] leading-relaxed opacity-60"
+                      showCursor={false}
                     />
                   </div>
                   <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
@@ -142,7 +137,6 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             )}
           </div>
 
-          {/* Footer Bar */}
           <div className="mt-6 flex justify-between items-center text-[9px] opacity-30 tracking-wider">
             <div>&copy; 2024 STREAMGLASS INTERACTIVE</div>
             <div className="flex items-center gap-4">

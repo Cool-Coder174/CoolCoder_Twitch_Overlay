@@ -9,6 +9,7 @@ interface TypewriterTextProps {
   className?: string;
   onComplete?: () => void;
   delay?: number;
+  showCursor?: boolean;
 }
 
 export const TypewriterText: React.FC<TypewriterTextProps> = ({ 
@@ -16,7 +17,8 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
   speed = 50, 
   className, 
   onComplete,
-  delay = 0
+  delay = 0,
+  showCursor = true
 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isStarted, setIsStarted] = useState(false);
@@ -42,8 +44,8 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
   return (
     <span className={cn("font-code transition-all duration-300", className)}>
       {displayedText}
-      {displayedText.length < text.length && isStarted && (
-        <span className="inline-block w-2 h-5 ml-1 bg-current animate-pulse" />
+      {showCursor && isStarted && (
+        <span className="inline-block w-2 h-4 ml-1 bg-current animate-pulse align-middle" />
       )}
     </span>
   );
