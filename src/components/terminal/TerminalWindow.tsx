@@ -25,10 +25,10 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Progression timer for the sequence since we're using a marquee for broadcast
+  // Progression timer for the sequence to ensure everything loads
   useEffect(() => {
     if (bootSequence === 2) {
-      const timer = setTimeout(() => setBootSequence(3), 2000);
+      const timer = setTimeout(() => setBootSequence(3), 1500);
       return () => clearTimeout(timer);
     }
   }, [bootSequence]);
@@ -40,7 +40,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-6xl aspect-[16/11] sm:aspect-[16/10] z-10 transition-transform duration-[3000ms] ease-out animate-float"
+      className="relative w-full max-w-6xl aspect-[16/11] z-10 transition-transform duration-[3000ms] ease-out animate-float"
       style={{
         transform: `perspective(2000px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
@@ -49,12 +49,16 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
         "absolute inset-0 glass-morphism rounded-[3rem] overflow-hidden p-8 sm:p-12 transition-all duration-1000",
         glowBorder
       )}>
+        {/* Visual FX Layers */}
         <div className="absolute inset-0 crt-scanline z-50 opacity-10 pointer-events-none" />
         <div className="absolute inset-0 sheen-effect z-40 opacity-10 pointer-events-none" />
         <div className="absolute inset-0 w-full h-[1px] bg-white/5 z-30 animate-scanline pointer-events-none" />
 
+        {/* Terminal Content Wrapper */}
         <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg overflow-hidden transition-colors duration-1000", themeClass)}>
-          <div className="flex justify-between items-center mb-8 border-b border-current pb-4 opacity-40">
+          
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6 border-b border-current pb-4 opacity-40 shrink-0">
             <div className="flex gap-3">
               <div className="w-3 h-3 rounded-full bg-red-500/20" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
@@ -65,7 +69,9 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col gap-6 overflow-hidden">
+          {/* Main Body */}
+          <div className="flex-1 flex flex-col gap-6 min-h-0 overflow-hidden">
+            {/* Boot Sequence Lines */}
             <div className="flex flex-col gap-2 shrink-0 opacity-60">
               <TypewriterText 
                 text="[BOOT SEQUENCE ENGAGED]" 
@@ -83,21 +89,23 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
               )}
             </div>
 
+            {/* Broadcast & Data Section */}
             {bootSequence >= 2 && (
-              <div className="flex-1 flex flex-col gap-8 border-t border-current/10 pt-8 min-h-0 overflow-hidden">
-                {/* Message Broadcast - Ticker Marquee */}
+              <div className="flex-1 flex flex-col gap-6 border-t border-current/10 pt-6 min-h-0 overflow-hidden">
+                
+                {/* News Ticker Bar */}
                 <div className="relative flex items-center h-16 sm:h-20 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0 overflow-hidden">
-                  <div className="absolute left-6 z-10 px-2 bg-current/10 backdrop-blur-md rounded border border-current/20 text-[10px] font-bold opacity-60 uppercase tracking-[0.4em] shadow-lg">
+                  <div className="absolute left-6 z-20 px-2 bg-background/80 backdrop-blur-md rounded border border-current/20 text-[10px] font-bold opacity-80 uppercase tracking-[0.4em] shadow-lg">
                     Broadcast
                   </div>
                   
                   <div className="flex whitespace-nowrap animate-marquee">
-                    <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold opacity-90 px-4 flex items-center">
+                    <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
                       {broadcastMessage}
                       <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
                       <span className="mx-12 opacity-20">///</span>
                     </span>
-                    <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold opacity-90 px-4 flex items-center">
+                    <span className="text-sm sm:text-lg md:text-xl font-bold opacity-90 px-4 flex items-center">
                       {broadcastMessage}
                       <span className="inline-block w-3 h-6 ml-4 bg-current animate-blink align-middle" />
                       <span className="mx-12 opacity-20">///</span>
@@ -105,23 +113,23 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                   </div>
                 </div>
 
-                {/* Main Data Layout */}
+                {/* Diagnostics Grid - Only visible at sequence 3 */}
                 {bootSequence >= 3 && (
-                  <div className="grid grid-cols-12 gap-8 flex-1 min-h-0">
-                    {/* Left Column - Diagnostics & Scanning */}
-                    <div className="col-span-7 flex flex-col gap-8 min-h-0">
+                  <div className="grid grid-cols-12 gap-6 flex-1 min-h-0 overflow-hidden">
+                    {/* Left: Scanning Console */}
+                    <div className="col-span-12 lg:col-span-7 flex flex-col min-h-0">
                       <ScanningTerminal />
                     </div>
 
-                    {/* Right Column - Axolotl */}
-                    <div className="col-span-5 flex flex-col items-center justify-center p-10 border border-current/10 rounded-2xl bg-current/5 relative overflow-hidden group">
-                      <div className="absolute top-6 left-6 text-[10px] opacity-40 uppercase tracking-[0.4em] font-bold">
+                    {/* Right: Axolotl Auxiliary */}
+                    <div className="col-span-12 lg:col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-2xl bg-current/5 relative overflow-hidden group min-h-[200px]">
+                      <div className="absolute top-4 left-4 text-[10px] opacity-40 uppercase tracking-[0.4em] font-bold">
                         &gt; AXOLOTL_BOOT: ONLINE
                       </div>
-                      <div className="flex-1 flex items-center justify-center overflow-hidden w-full h-full transition-transform duration-700 group-hover:scale-105">
+                      <div className="flex-1 flex items-center justify-center w-full h-full transform transition-transform duration-700 group-hover:scale-105">
                         <Axolotl className="text-current" />
                       </div>
-                      <div className="absolute bottom-6 right-6 text-[8px] opacity-20 uppercase tracking-widest">
+                      <div className="absolute bottom-4 right-4 text-[8px] opacity-20 uppercase tracking-widest">
                         Bio-Logic Core v4.0
                       </div>
                     </div>
@@ -131,7 +139,8 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             )}
           </div>
 
-          <div className="mt-10 flex justify-between items-center text-[10px] opacity-20 tracking-[0.5em] shrink-0 font-bold">
+          {/* Footer Bar */}
+          <div className="mt-8 flex justify-between items-center text-[10px] opacity-20 tracking-[0.5em] shrink-0 font-bold border-t border-current/10 pt-4">
             <div>&copy; 2024 STREAMGLASS INTERACTIVE</div>
             <div className="flex items-center gap-6">
               <span>BETA_0.4.2</span>
