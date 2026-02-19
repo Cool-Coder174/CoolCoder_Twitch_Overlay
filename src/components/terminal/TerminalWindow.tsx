@@ -96,19 +96,6 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                     {/* Left Column - Diagnostics & Scanning */}
                     <div className="col-span-7 flex flex-col gap-8 min-h-0">
                       <ScanningTerminal />
-                      
-                      <div className="flex flex-col gap-5 p-8 border border-current/10 rounded-2xl bg-current/5 shrink-0">
-                        <div className="text-xs opacity-40 uppercase tracking-[0.3em] font-bold">Signal Integrity</div>
-                        <div className="space-y-5 mt-2">
-                          <div className="flex justify-between text-base font-bold tracking-widest">
-                            <span className="opacity-60">UPLINK_STATUS</span>
-                            <span className="opacity-90">STABLE</span>
-                          </div>
-                          <div className="w-full h-4 bg-current/10 rounded-full overflow-hidden p-1 border border-current/5">
-                            <div className="h-full bg-current opacity-50 animate-pulse rounded-full transition-all duration-1000" style={{width: '92%'}} />
-                          </div>
-                        </div>
-                      </div>
                     </div>
 
                     {/* Right Column - Axolotl */}
