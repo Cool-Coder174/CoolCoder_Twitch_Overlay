@@ -131,20 +131,10 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                       </div>
                     </div>
 
-                    {/* Right Column - Stand By & Axolotl */}
+                    {/* Right Column - Axolotl Only */}
                     <div className="col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-xl bg-current/5 relative overflow-hidden">
                       <div className="absolute top-4 left-4 text-xs opacity-50 uppercase tracking-widest font-bold">Auxiliary Port</div>
-                      <div className="text-center mb-4">
-                        <h1 className="text-3xl sm:text-5xl font-bold tracking-tighter uppercase italic drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                          <TypewriterText 
-                            text="Stand By" 
-                            delay={400} 
-                            speed={120} 
-                            showCursor={false}
-                          />
-                        </h1>
-                      </div>
-                      <div className="scale-100 flex items-center justify-center overflow-hidden w-full">
+                      <div className="flex-1 flex items-center justify-center overflow-hidden w-full h-full">
                         <Axolotl />
                       </div>
                     </div>
