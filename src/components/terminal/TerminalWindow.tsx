@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { TypewriterText } from './TypewriterText';
 import { Axolotl } from './Axolotl';
+import { ScanningTerminal } from './ScanningTerminal';
 import { generateRetroIdleAnimations } from '@/ai/flows/generate-retro-idle-animations';
 
 interface TerminalWindowProps {
@@ -12,27 +13,13 @@ interface TerminalWindowProps {
 
 export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
   const [bootSequence, setBootSequence] = useState(0);
-  const [idleDescription, setIdleDescription] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const fetchIdleAnimation = useCallback(async () => {
-    try {
-      const desc = await generateRetroIdleAnimations({});
-      setIdleDescription(desc);
-    } catch (error) {
-      setIdleDescription("Background sync protocols stable.");
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchIdleAnimation();
-  }, [fetchIdleAnimation]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 4,
-        y: (e.clientY / window.innerHeight - 0.5) * 4,
+        x: (e.clientX / window.innerWidth - 0.5) * 2, // Further dampened for jitter-less feel
+        y: (e.clientY / window.innerHeight - 0.5) * 2,
       });
     };
     window.addEventListener('mousemove', handleMouseMove);
@@ -40,61 +27,61 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
   }, []);
 
   const themeClass = theme === 'green' ? 'terminal-green' : 'terminal-amber';
-  const glowBorder = theme === 'green' ? 'shadow-[0_0_40px_rgba(0,255,0,0.15)]' : 'shadow-[0_0_40px_rgba(255,176,0,0.15)]';
+  const glowBorder = theme === 'green' ? 'shadow-[0_0_60px_rgba(0,255,0,0.1)]' : 'shadow-[0_0_60px_rgba(255,176,0,0.1)]';
 
   return (
     <div 
-      className="relative w-full max-w-7xl aspect-[16/10] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float mt-20"
+      className="relative w-full max-w-6xl aspect-video z-10 transition-transform duration-[3000ms] ease-out animate-float"
       style={{
-        transform: `perspective(1200px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
+        transform: `perspective(2000px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
     >
       <div className={cn(
-        "absolute inset-0 glass-morphism rounded-[2.5rem] overflow-hidden p-6 sm:p-10 transition-shadow duration-1000",
+        "absolute inset-0 glass-morphism rounded-[3rem] overflow-hidden p-8 sm:p-12 transition-all duration-1000",
         glowBorder
       )}>
-        <div className="absolute inset-0 crt-scanline z-50 opacity-15 pointer-events-none" />
-        <div className="absolute inset-0 sheen-effect z-40 opacity-15 pointer-events-none" />
+        <div className="absolute inset-0 crt-scanline z-50 opacity-10 pointer-events-none" />
+        <div className="absolute inset-0 sheen-effect z-40 opacity-10 pointer-events-none" />
         <div className="absolute inset-0 w-full h-[1px] bg-white/5 z-30 animate-scanline pointer-events-none" />
 
         <div className={cn("h-full flex flex-col font-code text-sm sm:text-lg overflow-hidden transition-colors duration-1000", themeClass)}>
-          <div className="flex justify-between items-center mb-6 border-b border-current pb-2 opacity-60">
-            <div className="flex gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+          <div className="flex justify-between items-center mb-8 border-b border-current pb-4 opacity-40">
+            <div className="flex gap-3">
+              <div className="w-3 h-3 rounded-full bg-red-500/20" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
+              <div className="w-3 h-3 rounded-full bg-green-500/20" />
             </div>
-            <div className="text-[10px] uppercase tracking-widest flex items-center gap-2">
-              <span className="opacity-30">●</span> System Idle
+            <div className="text-xs uppercase tracking-[0.3em] flex items-center gap-3">
+              <span className="animate-pulse">●</span> System Idle
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col gap-4 overflow-hidden">
-            <div className="flex flex-col gap-1 shrink-0">
+          <div className="flex-1 flex flex-col gap-6 overflow-hidden">
+            <div className="flex flex-col gap-2 shrink-0 opacity-60">
               <TypewriterText 
                 text="[BOOT SEQUENCE ENGAGED]" 
-                delay={800} 
-                speed={30} 
+                delay={1000} 
+                speed={40} 
                 onComplete={() => setBootSequence(1)} 
               />
               {bootSequence >= 1 && (
                 <TypewriterText 
                   text="[CONNECTING TO NEURAL NET...]" 
-                  delay={400} 
-                  speed={25} 
+                  delay={600} 
+                  speed={30} 
                   onComplete={() => setBootSequence(2)} 
                 />
               )}
             </div>
 
             {bootSequence >= 2 && (
-              <div className="flex-1 flex flex-col gap-6 border-t border-current/10 pt-6 min-h-0 overflow-hidden">
+              <div className="flex-1 flex flex-col gap-8 border-t border-current/10 pt-8 min-h-0 overflow-hidden">
                 {/* Message Broadcast */}
-                <div className="flex flex-col gap-4 p-6 sm:p-8 border border-current/10 rounded-xl bg-current/5 shadow-inner shrink-0">
-                  <div className="text-xs font-bold opacity-50 uppercase tracking-widest">Message Broadcast</div>
+                <div className="flex flex-col gap-6 p-8 sm:p-10 border border-current/10 rounded-2xl bg-current/5 shadow-inner shrink-0">
+                  <div className="text-xs font-bold opacity-40 uppercase tracking-[0.4em]">Message Broadcast</div>
                   <TypewriterText 
                     text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
-                    speed={15} 
+                    speed={20} 
                     className="text-2xl sm:text-4xl font-bold leading-tight opacity-90"
                     showCursor={true}
                     onComplete={() => setBootSequence(3)}
@@ -103,41 +90,35 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
                 {/* Main Data Layout */}
                 {bootSequence >= 3 && (
-                  <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
-                    {/* Left Column - System Diagnostics */}
-                    <div className="col-span-7 flex flex-col gap-6 min-h-0">
-                      <div className="flex-1 flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 overflow-hidden">
-                        <div className="text-xs opacity-50 uppercase tracking-wider font-bold shrink-0">Environmental Scan</div>
-                        <div className="flex-1 overflow-auto scrollbar-hide">
-                          <TypewriterText 
-                            text={idleDescription || "Background sync protocols stable."} 
-                            speed={10} 
-                            className="text-base leading-relaxed opacity-70"
-                            showCursor={false}
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 shrink-0">
-                        <div className="text-xs opacity-50 uppercase tracking-wider font-bold">Signal Integrity</div>
-                        <div className="space-y-4 mt-1">
-                          <div className="flex justify-between text-sm font-bold">
-                            <span className="opacity-70">UPLINK_STATUS</span>
+                  <div className="grid grid-cols-12 gap-8 flex-1 min-h-0">
+                    {/* Left Column - Diagnostics & Scanning */}
+                    <div className="col-span-7 flex flex-col gap-8 min-h-0">
+                      <ScanningTerminal />
+                      
+                      <div className="flex flex-col gap-5 p-8 border border-current/10 rounded-2xl bg-current/5 shrink-0">
+                        <div className="text-xs opacity-40 uppercase tracking-[0.3em] font-bold">Signal Integrity</div>
+                        <div className="space-y-5 mt-2">
+                          <div className="flex justify-between text-base font-bold tracking-widest">
+                            <span className="opacity-60">UPLINK_STATUS</span>
                             <span className="opacity-90">STABLE</span>
                           </div>
-                          <div className="w-full h-3 bg-current/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-current opacity-40 animate-pulse" style={{width: '88%'}} />
+                          <div className="w-full h-4 bg-current/10 rounded-full overflow-hidden p-1 border border-current/5">
+                            <div className="h-full bg-current opacity-50 animate-pulse rounded-full transition-all duration-1000" style={{width: '92%'}} />
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Right Column - Axolotl Only */}
-                    <div className="col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-xl bg-current/5 relative overflow-hidden">
-                      <div className="absolute top-4 left-4 text-xs opacity-50 uppercase tracking-widest font-bold">
+                    {/* Right Column - Axolotl */}
+                    <div className="col-span-5 flex flex-col items-center justify-center p-10 border border-current/10 rounded-2xl bg-current/5 relative overflow-hidden group">
+                      <div className="absolute top-6 left-6 text-[10px] opacity-40 uppercase tracking-[0.4em] font-bold">
                         &gt; AXOLOTL_BOOT: ONLINE
                       </div>
-                      <div className="flex-1 flex items-center justify-center overflow-hidden w-full h-full">
-                        <Axolotl />
+                      <div className="flex-1 flex items-center justify-center overflow-hidden w-full h-full transition-transform duration-700 group-hover:scale-105">
+                        <Axolotl className="text-current" />
+                      </div>
+                      <div className="absolute bottom-6 right-6 text-[8px] opacity-20 uppercase tracking-widest">
+                        Bio-Logic Core v4.0
                       </div>
                     </div>
                   </div>
@@ -146,13 +127,14 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             )}
           </div>
 
-          <div className="mt-8 flex justify-between items-center text-[10px] opacity-30 tracking-wider shrink-0">
+          <div className="mt-10 flex justify-between items-center text-[10px] opacity-20 tracking-[0.5em] shrink-0 font-bold">
             <div>&copy; 2024 STREAMGLASS INTERACTIVE</div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <span>BETA_0.4.2</span>
-              <div className="flex gap-1">
-                <div className="w-1.5 h-3 bg-current" />
-                <div className="w-1.5 h-3 bg-current opacity-20" />
+              <div className="flex gap-1.5">
+                <div className="w-2 h-4 bg-current" />
+                <div className="w-2 h-4 bg-current opacity-30" />
+                <div className="w-2 h-4 bg-current opacity-10" />
               </div>
             </div>
           </div>
