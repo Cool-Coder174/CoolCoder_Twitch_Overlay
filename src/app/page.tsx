@@ -9,7 +9,7 @@ export default function Home() {
   const [theme, setTheme] = useState<'green' | 'amber'>('green');
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-end p-4 sm:p-24 pb-12 sm:pb-32 overflow-hidden bg-background">
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-4 sm:p-24 overflow-hidden bg-background">
       {/* Visual FX Engine Layers */}
       <BackgroundGrid />
       

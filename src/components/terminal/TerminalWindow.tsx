@@ -44,7 +44,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-4xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float"
+      className="relative w-full max-w-6xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float"
       style={{
         transform: `perspective(1200px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
@@ -120,7 +120,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                   <div className="flex flex-col gap-2 p-3 border border-current/10 rounded-lg bg-current/5">
                     <div className="text-[10px] opacity-40 uppercase mb-1">Environmental Scan</div>
                     <TypewriterText 
-                      text={idleDescription || "Syncing background threads..."} 
+                      text={idleDescription || "Background sync protocols stable."} 
                       speed={10} 
                       className="text-[9px] leading-relaxed opacity-60"
                     />
