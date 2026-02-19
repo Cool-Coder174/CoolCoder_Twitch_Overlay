@@ -44,7 +44,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
 
   return (
     <div 
-      className="relative w-full max-w-6xl aspect-[4/3] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float mt-20"
+      className="relative w-full max-w-7xl aspect-[16/10] sm:aspect-video z-10 transition-transform duration-[2000ms] ease-out animate-float mt-20"
       style={{
         transform: `perspective(1200px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`
       }}
@@ -69,8 +69,8 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
+          <div className="flex-1 flex flex-col gap-4 overflow-hidden">
+            <div className="flex flex-col gap-1 shrink-0">
               <TypewriterText 
                 text="[BOOT SEQUENCE ENGAGED]" 
                 delay={800} 
@@ -85,61 +85,76 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({ theme }) => {
                   onComplete={() => setBootSequence(2)} 
                 />
               )}
-              {bootSequence >= 2 && (
-                <div className="mt-4 flex flex-col items-center justify-center py-4">
-                  <h1 className="text-4xl sm:text-6xl font-bold mb-2 tracking-tighter uppercase italic">
-                    <TypewriterText 
-                      text="Stand By" 
-                      delay={400} 
-                      speed={120} 
-                      className="drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-                      onComplete={() => setBootSequence(3)}
-                    />
-                  </h1>
-                  <Axolotl className="mt-2" />
-                </div>
-              )}
             </div>
 
-            {bootSequence >= 3 && (
-              <div className="mt-auto grid grid-cols-1 gap-6 border-t border-current/10 pt-8">
-                <div className="flex flex-col gap-4 p-8 border border-current/10 rounded-xl bg-current/5 shadow-inner">
+            {bootSequence >= 2 && (
+              <div className="flex-1 flex flex-col gap-6 border-t border-current/10 pt-6 min-h-0 overflow-hidden">
+                {/* Message Broadcast */}
+                <div className="flex flex-col gap-4 p-6 sm:p-8 border border-current/10 rounded-xl bg-current/5 shadow-inner shrink-0">
                   <div className="text-xs font-bold opacity-50 uppercase tracking-widest">Message Broadcast</div>
                   <TypewriterText 
                     text="// WELCOME COOTERS! grab your snacks, grab your work, and lock the f*ck in, Starting soon..." 
                     speed={15} 
                     className="text-2xl sm:text-4xl font-bold leading-tight opacity-90"
                     showCursor={true}
+                    onComplete={() => setBootSequence(3)}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5">
-                    <div className="text-xs opacity-50 uppercase tracking-wider font-bold">Environmental Scan</div>
-                    <TypewriterText 
-                      text={idleDescription || "Background sync protocols stable."} 
-                      speed={10} 
-                      className="text-base leading-relaxed opacity-70"
-                      showCursor={false}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5">
-                    <div className="text-xs opacity-50 uppercase tracking-wider font-bold">Signal Integrity</div>
-                    <div className="space-y-4 mt-1">
-                      <div className="flex justify-between text-sm font-bold">
-                        <span className="opacity-70">UPLINK_STATUS</span>
-                        <span className="opacity-90">STABLE</span>
+
+                {/* Main Data Layout */}
+                {bootSequence >= 3 && (
+                  <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
+                    {/* Left Column - System Diagnostics */}
+                    <div className="col-span-7 flex flex-col gap-6 min-h-0">
+                      <div className="flex-1 flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 overflow-hidden">
+                        <div className="text-xs opacity-50 uppercase tracking-wider font-bold shrink-0">Environmental Scan</div>
+                        <div className="flex-1 overflow-auto scrollbar-hide">
+                          <TypewriterText 
+                            text={idleDescription || "Background sync protocols stable."} 
+                            speed={10} 
+                            className="text-base leading-relaxed opacity-70"
+                            showCursor={false}
+                          />
+                        </div>
                       </div>
-                      <div className="w-full h-3 bg-current/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-current opacity-40" style={{width: '65%'}} />
+                      <div className="flex flex-col gap-4 p-6 border border-current/10 rounded-xl bg-current/5 shrink-0">
+                        <div className="text-xs opacity-50 uppercase tracking-wider font-bold">Signal Integrity</div>
+                        <div className="space-y-4 mt-1">
+                          <div className="flex justify-between text-sm font-bold">
+                            <span className="opacity-70">UPLINK_STATUS</span>
+                            <span className="opacity-90">STABLE</span>
+                          </div>
+                          <div className="w-full h-3 bg-current/10 rounded-full overflow-hidden">
+                            <div className="h-full bg-current opacity-40 animate-pulse" style={{width: '88%'}} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column - Stand By & Axolotl */}
+                    <div className="col-span-5 flex flex-col items-center justify-center p-6 border border-current/10 rounded-xl bg-current/5 relative overflow-hidden">
+                      <div className="absolute top-4 left-4 text-xs opacity-50 uppercase tracking-widest font-bold">Auxiliary Port</div>
+                      <div className="text-center mb-4">
+                        <h1 className="text-3xl sm:text-5xl font-bold tracking-tighter uppercase italic drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                          <TypewriterText 
+                            text="Stand By" 
+                            delay={400} 
+                            speed={120} 
+                            showCursor={false}
+                          />
+                        </h1>
+                      </div>
+                      <div className="scale-75 sm:scale-100 flex items-center justify-center">
+                        <Axolotl />
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
           </div>
 
-          <div className="mt-8 flex justify-between items-center text-[10px] opacity-30 tracking-wider">
+          <div className="mt-8 flex justify-between items-center text-[10px] opacity-30 tracking-wider shrink-0">
             <div>&copy; 2024 STREAMGLASS INTERACTIVE</div>
             <div className="flex items-center gap-4">
               <span>BETA_0.4.2</span>
